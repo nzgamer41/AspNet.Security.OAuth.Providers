@@ -14,6 +14,7 @@ namespace AspNet.Security.OAuth.Patreon
         public static class Claims
         {
             public const string Avatar = "urn:patreon:avatar";
+            public const string Tier = "urn:patreon:tier";
         }
     }
 }

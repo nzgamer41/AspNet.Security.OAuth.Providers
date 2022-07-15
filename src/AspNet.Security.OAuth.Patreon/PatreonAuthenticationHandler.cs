@@ -42,6 +42,11 @@ namespace AspNet.Security.OAuth.Patreon
                 endpoint = QueryHelpers.AddQueryString(endpoint, "fields[user]", string.Join(',', Options.Fields));
             }
 
+            if (Options.TierFields.Count > 0)
+            {
+                endpoint = QueryHelpers.AddQueryString(endpoint, "fields[tier]", string.Join(',', Options.TierFields));
+            }
+
             if (Options.Includes.Count > 0)
             {
                 endpoint = QueryHelpers.AddQueryString(endpoint, "include", string.Join(',', Options.Includes));
@@ -54,11 +59,13 @@ namespace AspNet.Security.OAuth.Patreon
             using var response = await Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, Context.RequestAborted);
             if (!response.IsSuccessStatusCode)
             {
+#pragma warning disable CA1848 // Use the LoggerMessage delegates
                 Logger.LogError("An error occurred while retrieving the user profile: the remote server " +
                                 "returned a {Status} response with the following payload: {Headers} {Body}.",
                                 /* Status: */ response.StatusCode,
                                 /* Headers: */ response.Headers.ToString(),
                                 /* Body: */ await response.Content.ReadAsStringAsync(Context.RequestAborted));
+#pragma warning restore CA1848 // Use the LoggerMessage delegates
 
                 throw new HttpRequestException("An error occurred while retrieving the user profile.");
             }

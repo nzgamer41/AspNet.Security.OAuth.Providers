@@ -35,6 +35,7 @@ namespace AspNet.Security.OAuth.Patreon
             ClaimActions.MapJsonSubKey(ClaimTypes.Surname, "attributes", "last_name");
             ClaimActions.MapJsonSubKey(ClaimTypes.Webpage, "attributes", "url");
             ClaimActions.MapJsonSubKey(Claims.Avatar, "attributes", "thumb_url");
+            ClaimActions.MapJsonSubKey(Claims.Tier, "attributes", "title");
         }
 
         /// <summary>
@@ -42,11 +43,17 @@ namespace AspNet.Security.OAuth.Patreon
         /// </summary>
         public ISet<string> Fields { get; } = new HashSet<string>
         {
+            "email",
             "first_name",
             "full_name",
             "last_name",
             "thumb_url",
             "url",
+        };
+
+        public ISet<string> TierFields { get; } = new HashSet<string>
+        {
+            "title"
         };
 
         /// <summary>
